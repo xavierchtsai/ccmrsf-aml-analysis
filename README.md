@@ -25,4 +25,4 @@ The NTUH cohort is available from the corresponding author on reasonable request
 
 ## License
 
-MIT
+The code in this repository is released under the [MIT License](LICENSE). The license covers the code and the frozen model file; it does not cover the patient data, which are not distributed here. If you use this code or the model, please cite this repository until the accompanying article is published.
