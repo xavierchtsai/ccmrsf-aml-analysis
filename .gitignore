@@ -1,0 +1,13 @@
+# data are not shared; only the description is tracked
+data/*
+!data/README.md
+
+# generated
+outputs/
+figures/
+web/
+
+.DS_Store
+.Rhistory
+.RData
+__pycache__/
