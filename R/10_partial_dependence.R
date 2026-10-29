@@ -31,15 +31,16 @@ mk_bar <- function(d, varname, ttl) ggplot(d, aes(grp, surv, fill = grp)) + geom
   scale_fill_manual(values = setNames(if (d$surv[1] >= d$surv[2]) c("#2ca02c", "#d62728") else c("#d62728", "#2ca02c"),
                                       levels(d$grp)), guide = "none") +   # green = better predicted survival
   ylim(0, 1) + labs(x = varname, y = "Predicted 2-yr survival", title = ttl) +
-  geom_text(aes(label = sprintf("%.2f", surv)), vjust = -0.4) + theme_minimal() +
-  theme(plot.title = ggtext::element_markdown(), axis.title.x = ggtext::element_markdown())
+  geom_text(aes(label = sprintf("%.2f", surv)), vjust = -0.4) + theme_minimal()
+## titles use plotmath: ggtext drops the space after an italic word ending in a capital letter
 d_tp    <- binary_pdp("TP53", "wild-type", "mutated")
 d_cebpa <- binary_pdp("CEBPA_bZIP", "wild-type", "bZIP in-frame")
 
 save_fig(arrangeGrob(mkline(d_age, "Age (years)"),
                      mkline(d_wbc, "WBC (/uL)") + scale_x_log10(labels = scales::label_comma()),
                      mkline(d_bm, "Bone marrow blasts (%)"),
-                     mk_bar(d_tp, "*TP53*", "*TP53* mutation"), mk_bar(d_cebpa, "*CEBPA*", "*CEBPA* bZIP mutation"), ncol = 3,
+                     mk_bar(d_tp, quote(italic("TP53")), quote(italic("TP53") ~ "mutation")),
+                     mk_bar(d_cebpa, quote(italic("CEBPA")), quote(italic("CEBPA") ~ "bZIP in-frame mutation")), ncol = 3,
                      top = "Partial dependence: predicted 2-year overall survival (CCM-RSF)"),
          fig_path("Fig_PDP"), width = 14, height = 8)
 cat(sprintf("Age %d->%d: 2-yr surv %.2f -> %.2f\n", min(g_age), max(g_age), d_age$surv[1], tail(d_age$surv, 1)))
